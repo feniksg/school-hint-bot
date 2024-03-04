@@ -14,6 +14,7 @@ def start_message(message:types.Message):
         reply_markup=markups.get_empty_markup()
     )
     logging.info(f'Пользователь {message.from_user.username} использовал команду /start')
+    
     db.insert_user(message.from_user.username, message.from_user.id)
     
 
@@ -24,6 +25,7 @@ def menu_message(message:types.Message):
         text=messages.MESSAGE_MENU,
         reply_markup=markups.get_menu_markup()
     )
+    
     logging.info(f'Пользователь {message.from_user.username} использовал команду /menu')
     bot.register_next_step_handler(message, subject_choice)
 
@@ -37,7 +39,7 @@ def subject_choice(message:types.Message):
             text=messages.MESSAGE_CHOICE.format(choice=choice),
             reply_markup=markups.get_empty_markup()
         )
-        bot.register_next_step_handler(message, search)
+        bot.register_next_step_handler(message, search, choice)
 
     elif choice == settings.CANCEL_WORD:
         logging.info(f'Пользователь {message.from_user.username} отменил выбор предмета')
@@ -52,7 +54,7 @@ def subject_choice(message:types.Message):
         bot.register_next_step_handler(message, subject_choice)
 
 #TODO: Сделать поиск
-def search(message:types.Message):
+def search(message:types.Message, choice):
     search = message.text.lower()
 
     for symbol in settings.SPECIAL_SYMBOLS:
