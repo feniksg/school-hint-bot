@@ -68,6 +68,8 @@ def search(message:types.Message, choice):
 
     bot.send_message(message.chat.id, text='\n'.join(response), parse_mode='HTML')
 
+    bot.register_next_step_handler(message, search, choice)
+
 if __name__ == "__main__":
     try:
         logging.info('Бот запущен')
