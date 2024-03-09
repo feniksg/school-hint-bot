@@ -1,7 +1,6 @@
 from telebot import TeleBot, types
-from handler import *
 
-import settings, messages, logging, db, markups
+import settings, messages, logging, db, markups, handler
 
 bot = TeleBot(token=settings.BOT_TOKEN)
 
@@ -53,14 +52,21 @@ def subject_choice(message:types.Message):
         )
         bot.register_next_step_handler(message, subject_choice)
 
-#TODO: Сделать поиск
 def search(message:types.Message, choice):
     search = message.text.lower()
 
+    if search == settings.CANCEL_WORD:
+        #TODO:
+        #Добавить сообщение которое будет отправляться после отмены
+        return
     for symbol in settings.SPECIAL_SYMBOLS:
         search = search.replace(symbol,'')
 
-    ...
+    search = search.split(" ")
+    response = handler.search_in_json(*search)
+    
+
+    bot.send_message(message.chat.id, text='\n'.join(response), parse_mode='HTML')
 
 if __name__ == "__main__":
     try:

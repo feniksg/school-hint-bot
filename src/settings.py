@@ -1,4 +1,4 @@
-import os, logging
+import os, logging, json
 from dotenv import load_dotenv
 
 #Здесь можно изменить имя файла для записи логов
@@ -33,3 +33,8 @@ CANCEL_WORD = 'отмена'
 SPECIAL_SYMBOLS = [".", ",", "!", "?", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "[", "]", "{", "}", ";", ":", "'", '"', "<", ">", "/", "\\"]
 
 
+with open(os.path.join(os.path.dirname(__file__),'..', 'alg1.json'), 'r', encoding='utf-8', errors='ingore') as file:
+    data = json.load(file)
+
+
+LEARNING_DATA:dict = data
