@@ -55,10 +55,10 @@ def subject_choice(message:types.Message):
 def search(message:types.Message, choice):
     search = message.text.lower()
 
-    if search == settings.CANCEL_WORD:
-        #TODO:
-        #Добавить сообщение которое будет отправляться после отмены
-        return
+    # if search == settings.CANCEL_WORD:
+    #     #TODO:
+    #     #Добавить сообщение которое будет отправляться после отмены
+    #     return
     for symbol in settings.SPECIAL_SYMBOLS:
         search = search.replace(symbol,'')
 
