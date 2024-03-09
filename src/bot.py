@@ -10,7 +10,6 @@ def start_message(message:types.Message):
     bot.send_message(
         chat_id=message.chat.id,
         text=messages.MESSAGE_HELLO,
-        reply_markup=markups.get_empty_markup()
     )
     logging.info(f'Пользователь {message.from_user.username} использовал команду /start')
     
@@ -53,16 +52,16 @@ def subject_choice(message:types.Message):
         bot.register_next_step_handler(message, subject_choice)
 
 def search(message:types.Message, choice):
-    search = message.text.lower()
+    search_str = message.text.lower()
 
-    if search == settings.CANCEL_WORD:
+    if search_str == settings.CANCEL_WORD:
         bot.send_message(message.chat.id, text=messages.MESSAGE_CANCEL)
         return
     for symbol in settings.SPECIAL_SYMBOLS:
-        search = search.replace(symbol,'')
+        search_str = search_str.replace(symbol,'')
 
-    search = search.split(" ")
-    response = handler.search_in_json(*search)
+    search_str = search_str.split(" ")
+    response = handler.search_in_json(*search_str)
 
     bot.send_message(message.chat.id, text='\n'.join(response), parse_mode='HTML', reply_markup=markups.get_cancel_markup())
 
