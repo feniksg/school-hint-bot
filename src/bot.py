@@ -55,7 +55,7 @@ def search(message:types.Message, choice):
     search_str = message.text.lower()
 
     if search_str == settings.CANCEL_WORD:
-        bot.send_message(message.chat.id, text=messages.MESSAGE_CANCEL)
+        bot.send_message(message.chat.id, text=messages.MESSAGE_CANCEL, reply_markup=markups.get_empty_markup())
         return
     for symbol in settings.SPECIAL_SYMBOLS:
         search_str = search_str.replace(symbol,'')
