@@ -55,18 +55,16 @@ def subject_choice(message:types.Message):
 def search(message:types.Message, choice):
     search = message.text.lower()
 
-    # if search == settings.CANCEL_WORD:
-    #     #TODO:
-    #     #Добавить сообщение которое будет отправляться после отмены
-    #     return
+    if search == settings.CANCEL_WORD:
+        bot.send_message(message.chat.id, text=messages.MESSAGE_CANCEL)
+        return
     for symbol in settings.SPECIAL_SYMBOLS:
         search = search.replace(symbol,'')
 
     search = search.split(" ")
     response = handler.search_in_json(*search)
-    
 
-    bot.send_message(message.chat.id, text='\n'.join(response), parse_mode='HTML')
+    bot.send_message(message.chat.id, text='\n'.join(response), parse_mode='HTML', reply_markup=markups.get_cancel_markup())
 
     bot.register_next_step_handler(message, search, choice)
 

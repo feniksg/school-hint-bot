@@ -18,3 +18,10 @@ def get_menu_markup(need_cancel=False) -> types.ReplyKeyboardMarkup:
 
 def get_empty_markup() -> types.ReplyKeyboardMarkup:
     return types.ReplyKeyboardRemove(selective=True)
+
+def get_cancel_markup() -> types.ReplyKeyboardMarkup:
+    markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+    markup.add(
+            types.KeyboardButton(settings.CANCEL_WORD.lower().capitalize())
+        )
+    return markup
